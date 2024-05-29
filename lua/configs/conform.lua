@@ -4,6 +4,7 @@ local options = {
     nix = { "nixfmt" },
     json = { "jq" },
     sql = { "pg_format" },
+    sh = { "shfmt" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
