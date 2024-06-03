@@ -28,6 +28,12 @@ vim.g.rustaceanvim = {
       },
     },
   },
+  dap = {
+    adapter = require("rustaceanvim.config").get_codelldb_adapter(
+      "/Users/tenniscp25/.vscode/extensions/vadimcn.vscode-lldb-1.10.0/adapter/codelldb",
+      "/Users/tenniscp25/.vscode/extensions/vadimcn.vscode-lldb-1.10.0/lldb/lib/liblldb.dylib"
+    ),
+  },
   -- DAP configuration
   -- dap = {},
 }

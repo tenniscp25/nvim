@@ -26,6 +26,7 @@ return {
         "css-lsp",
         "prettier",
         "rust-analyzer",
+        "yaml-language-server",
       },
     },
   },
@@ -151,53 +152,64 @@ return {
     opts = function()
       local M = require "nvchad.configs.cmp"
       table.insert(M.sources, { name = "crates" })
+      table.insert(M.sources, { name = "" })
 
       local cmp = require "cmp"
-      M.mapping = M.mapping or {}
-      M.mapping["<Tab>"] = cmp.mapping(function(fallback)
-        if cmp.visible() then
-          local entry = cmp.get_selected_entry()
-          if not entry then
-            cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+      M.mapping = cmp.mapping.preset.insert {
+        ["<C-Space>"] = cmp.mapping.complete(),
+        ["<Tab>"] = cmp.mapping(function(fallback)
+          if cmp.visible() then
+            local entry = cmp.get_selected_entry()
+            if not entry then
+              cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
+            end
+            cmp.confirm()
+          else
+            fallback()
           end
-          cmp.confirm()
-        else
-          fallback()
-        end
-      end, { "i", "s", "c" })
-
-      M.mapping["<CR>"] = cmp.mapping {
-        i = function(fallback)
+        end, { "i", "c" }),
+        ["<CR>"] = cmp.mapping(function(fallback)
           if cmp.visible() and cmp.get_active_entry() then
             cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
           else
             fallback()
           end
-        end,
-        s = cmp.mapping.confirm { select = true },
-        c = cmp.mapping.confirm { behavior = cmp.ConfirmBehavior.Replace, select = true },
+        end, { "i", "c" }),
+        ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select }, { "i", "c" }),
+        ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select }, { "i", "c" }),
       }
-
-      M.mapping["<Down>"] =
-        cmp.mapping(cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select }, { "i", "s" })
-      M.mapping["<Up>"] =
-        cmp.mapping(cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select }, { "i", "s" })
-
       return M
     end,
   },
 
-  -- {
-  --   "simrat39/rust-tools.nvim",
-  --   ft = "rust",
-  --   dependencies = "neovim/nvim-lspconfig",
-  --   opts = function ()
-  --     return require "configs.rust-tools"
-  --   end,
-  --   config = function(_, opts)
-  --     require('rust-tools').setup(opts)
-  --   end,
-  -- },
+  {
+    "hrsh7th/cmp-cmdline",
+    event = "CmdlineEnter",
+    config = function()
+      local cmp = require "cmp"
+      cmp.setup.cmdline("/", {
+        -- use mapping from cmp's preset
+        -- mapping = cmp.mapping.preset.cmdline(),
+        sources = {
+          { name = "buffer" },
+        },
+      })
+      cmp.setup.cmdline(":", {
+        -- use mapping from cmp's preset
+        -- mapping = cmp.mapping.preset.cmdline(),
+        sources = cmp.config.sources({
+          { name = "path" },
+        }, {
+          {
+            name = "cmdline",
+            option = {
+              ignore_cmds = { "Man", "!" },
+            },
+          },
+        }),
+      })
+    end,
+  },
 
   {
     "mrcjkb/rustaceanvim",
@@ -232,5 +244,20 @@ return {
     "mrcjkb/haskell-tools.nvim",
     version = "^3", -- Recommended
     lazy = false, -- This plugin is already lazy
+  },
+
+  {
+    "mfussenegger/nvim-dap",
+    dependencies = { "rcarriga/nvim-dap-ui" },
+    config = function()
+      require "configs.dap"
+    end,
+  },
+  {
+    "rcarriga/nvim-dap-ui",
+    dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
+    config = function()
+      require "configs.dap-ui"
+    end,
   },
 }
