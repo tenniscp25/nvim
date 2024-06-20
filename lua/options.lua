@@ -7,6 +7,8 @@ o.cursorlineopt = "both" -- to enable cursorline!
 o.clipboard = ""
 o.relativenumber = false
 
+local data_path = vim.fn.stdpath "data"
+
 vim.g.rustaceanvim = {
   -- Plugin configuration
   -- tools = {},
@@ -30,12 +32,10 @@ vim.g.rustaceanvim = {
   },
   dap = {
     adapter = require("rustaceanvim.config").get_codelldb_adapter(
-      "/Users/tenniscp25/.vscode/extensions/vadimcn.vscode-lldb-1.10.0/adapter/codelldb",
-      "/Users/tenniscp25/.vscode/extensions/vadimcn.vscode-lldb-1.10.0/lldb/lib/liblldb.dylib"
+      data_path .. "/mason/packages/codelldb/extension/adapter/codelldb",
+      data_path .. "/mason/packages/codelldb/extension/lldb/lib/liblldb.dylib"
     ),
   },
-  -- DAP configuration
-  -- dap = {},
 }
 
 vim.api.nvim_create_autocmd("TextYankPost", {

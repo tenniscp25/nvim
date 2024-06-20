@@ -27,6 +27,12 @@ return {
         "prettier",
         "rust-analyzer",
         "yaml-language-server",
+        "yamlfmt",
+        "codelldb",
+        "marksman",
+        "xmlformatter",
+        "python-lsp-server",
+        "nil", -- nix
       },
     },
   },
@@ -253,11 +259,23 @@ return {
       require "configs.dap"
     end,
   },
+
   {
     "rcarriga/nvim-dap-ui",
     dependencies = { "mfussenegger/nvim-dap", "nvim-neotest/nvim-nio" },
     config = function()
       require "configs.dap-ui"
     end,
+  },
+
+  {
+    "lukas-reineke/indent-blankline.nvim",
+  },
+
+  {
+    "folke/todo-comments.nvim",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    event = { "BufRead", "BufNewFile" },
+    opts = {}, -- this is required even if it's empty
   },
 }

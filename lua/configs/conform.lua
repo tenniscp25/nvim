@@ -5,6 +5,8 @@ local options = {
     json = { "jq" },
     sql = { "pg_format" },
     sh = { "shfmt" },
+    xml = { "xmlformat" },
+    yaml = { "yamlfmt" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
