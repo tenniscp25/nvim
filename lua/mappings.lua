@@ -13,6 +13,12 @@ map("n", "<leader>ut", vim.cmd.UndotreeToggle, { desc = "Toggle undotree" })
 -- move from NvChad's default <leader>ds
 map("n", "<leader>ld", vim.diagnostic.setloclist, { desc = "lsp diagnostic loclist" })
 
+-- emacs-like delete previous word and next word
+map("i", "<A-BS>", "<C-w>", { noremap = true })
+map("c", "<A-BS>", "<C-w>", { noremap = true })
+map("i", "<A-d>", "<space><esc>ce", { noremap = true })
+map("c", "<A-d>", "<space><esc>ce", { noremap = true })
+
 -- Map <leader>y to copy to system clipboard in normal and visual modes
 -- map("n", "<leader>y", '"+y', { noremap = true, silent = true })
 -- map("v", "<leader>y", '"+y', { noremap = true, silent = true })
@@ -41,3 +47,8 @@ if vim.g.neovide then
   map("c", "<D-v>", "<C-R>+")
   map("i", "<D-v>", "<C-R>+", { noremap = true, silent = true })
 end
+
+map("n", "<leader>tt", ":TodoTelescope<CR>", { desc = "All TODOs with Telescope" })
+
+-- unbind <leader>h set by NvChad
+map("n", "<leader>h", "<Nop>", { noremap = true, silent = true })

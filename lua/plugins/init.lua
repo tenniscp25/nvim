@@ -17,27 +17,6 @@ return {
   },
 
   {
-    "williamboman/mason.nvim",
-    opts = {
-      ensure_installed = {
-        "lua-language-server",
-        "stylua",
-        "html-lsp",
-        "css-lsp",
-        "prettier",
-        "rust-analyzer",
-        "yaml-language-server",
-        "yamlfmt",
-        "codelldb",
-        "marksman",
-        "xmlformatter",
-        "python-lsp-server",
-        "nil", -- nix
-      },
-    },
-  },
-
-  {
     "nvim-treesitter/nvim-treesitter",
     opts = {
       ensure_installed = {
@@ -219,8 +198,8 @@ return {
 
   {
     "mrcjkb/rustaceanvim",
-    version = "^4",
-    ft = "rust",
+    version = "^5",
+    lazy = false,
   },
 
   {
@@ -248,7 +227,7 @@ return {
 
   {
     "mrcjkb/haskell-tools.nvim",
-    version = "^3", -- Recommended
+    version = "^4", -- Recommended
     lazy = false, -- This plugin is already lazy
   },
 
@@ -277,5 +256,82 @@ return {
     dependencies = { "nvim-lua/plenary.nvim" },
     event = { "BufRead", "BufNewFile" },
     opts = {}, -- this is required even if it's empty
+  },
+
+  {
+    "ThePrimeagen/harpoon",
+    branch = "harpoon2",
+    dependencies = { "nvim-lua/plenary.nvim" },
+    lazy = false,
+    config = function()
+      require "configs.harpoon"
+    end,
+  },
+
+  {
+    "yetone/avante.nvim",
+    event = "VeryLazy",
+    lazy = false,
+    opts = {
+      provider = "openai",
+      -- hints = { enabled = false },
+    },
+    keys = {
+      {
+        "<leader>aa",
+        function()
+          require("avante.api").ask()
+        end,
+        desc = "avante: ask",
+        mode = { "n", "v" },
+      },
+      {
+        "<leader>ar",
+        function()
+          require("avante.api").refresh()
+        end,
+        desc = "avante: refresh",
+      },
+      {
+        "<leader>ae",
+        function()
+          require("avante.api").edit()
+        end,
+        desc = "avante: edit",
+        mode = "v",
+      },
+    },
+    dependencies = {
+      "stevearc/dressing.nvim",
+      "nvim-lua/plenary.nvim",
+      "MunifTanjim/nui.nvim",
+      --- The below dependencies are optional,
+      "nvim-tree/nvim-web-devicons", -- or echasnovski/mini.icons
+      {
+        -- support for image pasting
+        "HakonHarnes/img-clip.nvim",
+        event = "VeryLazy",
+        opts = {
+          -- recommended settings
+          default = {
+            embed_image_as_base64 = false,
+            prompt_for_file_name = false,
+            drag_and_drop = {
+              insert_mode = true,
+            },
+            -- required for Windows users
+            use_absolute_path = true,
+          },
+        },
+      },
+      {
+        -- Make sure to setup it properly if you have lazy=true
+        "MeanderingProgrammer/render-markdown.nvim",
+        opts = {
+          file_types = { "markdown", "Avante" },
+        },
+        ft = { "markdown", "Avante" },
+      },
+    },
   },
 }

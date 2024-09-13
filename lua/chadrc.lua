@@ -4,7 +4,7 @@
 ---@type ChadrcConfig
 local M = {}
 
-M.ui = {
+M.base46 = {
   theme = "aquarium",
 
   hl_override = {
@@ -16,6 +16,13 @@ M.ui = {
   -- 	Comment = { italic = true },
   -- 	["@comment"] = { italic = true },
   -- },
+}
+
+M.mason = {
+  pkgs = {
+    "rust-analyzer",
+    "codelldb",
+  },
 }
 
 return M
