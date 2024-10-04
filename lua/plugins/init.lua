@@ -269,9 +269,25 @@ return {
   },
 
   {
+    "imsnif/kdl.vim",
+    ft = "kdl",
+  },
+
+  {
+    "lewis6991/gitsigns.nvim",
+    opts = {
+      current_line_blame = true,
+      current_line_blame_opts = {
+        ignore_whitespace = true,
+      },
+    },
+  },
+
+  {
     "yetone/avante.nvim",
     event = "VeryLazy",
     lazy = false,
+    version = false,
     opts = {
       provider = "openai",
       -- hints = { enabled = false },
@@ -302,6 +318,7 @@ return {
       },
     },
     dependencies = {
+      "nvim-treesitter/nvim-treesitter",
       "stevearc/dressing.nvim",
       "nvim-lua/plenary.nvim",
       "MunifTanjim/nui.nvim",
@@ -325,7 +342,6 @@ return {
         },
       },
       {
-        -- Make sure to setup it properly if you have lazy=true
         "MeanderingProgrammer/render-markdown.nvim",
         opts = {
           file_types = { "markdown", "Avante" },
@@ -333,5 +349,12 @@ return {
         ft = { "markdown", "Avante" },
       },
     },
+  },
+  {
+    "MeanderingProgrammer/render-markdown.nvim",
+    opts = {
+      file_types = { "markdown" },
+    },
+    ft = { "markdown" },
   },
 }

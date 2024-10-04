@@ -6,7 +6,20 @@ local capabilities = require("nvchad.configs.lspconfig").capabilities
 local lspconfig = require "lspconfig"
 
 -- see: https://github.com/neovim/nvim-lspconfig/blob/master/doc/server_configurations.md
-local servers = { "html", "cssls", "yamlls", "marksman", "pylsp", "nil_ls", "bashls", "kotlin_language_server" }
+local servers = {
+  "html",
+  "cssls",
+  "yamlls",
+  "ts_ls",
+  "marksman",
+  "pylsp",
+  "nil_ls",
+  "bashls",
+  "kotlin_language_server",
+  "dockerls",
+  "docker_compose_language_service",
+  "tailwindcss",
+}
 
 -- lsps with default config
 for _, lsp in ipairs(servers) do
@@ -18,11 +31,11 @@ for _, lsp in ipairs(servers) do
 end
 
 -- typescript
-lspconfig.ts_ls.setup {
-  on_attach = on_attach,
-  on_init = on_init,
-  capabilities = capabilities,
-}
+-- lspconfig.ts_ls.setup {
+--   on_attach = on_attach,
+--   on_init = on_init,
+--   capabilities = capabilities,
+-- }
 
 -- ## configured by rust-tools.vim instead
 -- local util = require "lspconfig/util"

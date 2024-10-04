@@ -45,3 +45,10 @@ vim.api.nvim_create_autocmd("TextYankPost", {
     vim.highlight.on_yank()
   end,
 })
+
+vim.cmd "highlight! link GitSignsCurrentLineBlame Comment"
+vim.api.nvim_create_autocmd("ColorScheme", {
+  callback = function()
+    vim.cmd "highlight! link GitSignsCurrentLineBlame Comment"
+  end,
+})
