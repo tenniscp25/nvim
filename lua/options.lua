@@ -5,7 +5,7 @@ require "nvchad.options"
 local o = vim.o
 o.cursorlineopt = "both" -- to enable cursorline!
 o.clipboard = ""
-o.relativenumber = false
+o.relativenumber = true
 
 local data_path = vim.fn.stdpath "data"
 

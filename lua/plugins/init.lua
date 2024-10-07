@@ -140,6 +140,7 @@ return {
       table.insert(M.sources, { name = "" })
 
       local cmp = require "cmp"
+      local luasnip = require "luasnip"
       M.mapping = cmp.mapping.preset.insert {
         ["<C-Space>"] = cmp.mapping.complete(),
         ["<Tab>"] = cmp.mapping(function(fallback)
@@ -149,10 +150,19 @@ return {
               cmp.select_next_item { behavior = cmp.SelectBehavior.Select }
             end
             cmp.confirm()
+          elseif luasnip.locally_jumpable(1) then
+            luasnip.jump(1)
           else
             fallback()
           end
-        end, { "i", "c" }),
+        end, { "i", "s", "c" }),
+        ["<S-Tab>"] = cmp.mapping(function(fallback)
+          if luasnip.locally_jumpable(-1) then
+            luasnip.jump(-1)
+          else
+            fallback()
+          end
+        end, { "i", "s" }),
         ["<CR>"] = cmp.mapping(function(fallback)
           if cmp.visible() and cmp.get_active_entry() then
             cmp.confirm { behavior = cmp.ConfirmBehavior.Replace, select = false }
@@ -350,11 +360,20 @@ return {
       },
     },
   },
+
   {
     "MeanderingProgrammer/render-markdown.nvim",
     opts = {
       file_types = { "markdown" },
     },
     ft = { "markdown" },
+  },
+
+  {
+    "kylechui/nvim-surround",
+    event = "VeryLazy",
+    config = function()
+      require("nvim-surround").setup {}
+    end,
   },
 }
