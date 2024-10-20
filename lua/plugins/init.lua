@@ -2,16 +2,13 @@ return {
   {
     "stevearc/conform.nvim",
     event = "BufWritePre", -- uncomment for format on save
-    config = function()
-      require "configs.conform"
-    end,
+    opts = require "configs.conform",
   },
 
   -- These are some examples, uncomment them if you want to see them work!
   {
     "neovim/nvim-lspconfig",
     config = function()
-      require("nvchad.configs.lspconfig").defaults()
       require "configs.lspconfig"
     end,
   },
@@ -30,12 +27,14 @@ return {
         "fish",
         "gitcommit",
         "gitattributes",
+        "go",
         "groovy",
         "java",
         "json",
         "kotlin",
         "sql",
         "yaml",
+        "dhall",
       },
       incremental_selection = {
         enable = true,
@@ -137,7 +136,6 @@ return {
     opts = function()
       local M = require "nvchad.configs.cmp"
       table.insert(M.sources, { name = "crates" })
-      table.insert(M.sources, { name = "" })
 
       local cmp = require "cmp"
       local luasnip = require "luasnip"
@@ -172,6 +170,10 @@ return {
         end, { "i", "c" }),
         ["<Down>"] = cmp.mapping(cmp.mapping.select_next_item { behavior = cmp.SelectBehavior.Select }, { "i", "c" }),
         ["<Up>"] = cmp.mapping(cmp.mapping.select_prev_item { behavior = cmp.SelectBehavior.Select }, { "i", "c" }),
+        ["<C-b>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-f>"] = cmp.mapping.scroll_docs(4),
+        ["<C-k>"] = cmp.mapping.scroll_docs(-4),
+        ["<C-j>"] = cmp.mapping.scroll_docs(4),
       }
       return M
     end,
@@ -228,9 +230,9 @@ return {
     keys = {
       {
         mode = { "v", "n" },
-        "<Leader>m",
+        "<Leader>mc",
         "<cmd>MCstart<cr>",
-        desc = "Create a selection for selected text or word under the cursor",
+        desc = "[M]ulti-[c]ursor start",
       },
     },
   },
@@ -255,10 +257,6 @@ return {
     config = function()
       require "configs.dap-ui"
     end,
-  },
-
-  {
-    "lukas-reineke/indent-blankline.nvim",
   },
 
   {
@@ -289,6 +287,16 @@ return {
       current_line_blame = true,
       current_line_blame_opts = {
         ignore_whitespace = true,
+      },
+    },
+    keys = {
+      {
+        "<leader>gh",
+        function()
+          require("gitsigns").preview_hunk()
+        end,
+        desc = "Preview [H]unk",
+        mode = { "n" },
       },
     },
   },
@@ -374,6 +382,50 @@ return {
     event = "VeryLazy",
     config = function()
       require("nvim-surround").setup {}
+    end,
+  },
+
+  {
+    "stevearc/oil.nvim",
+    opts = {},
+    dependencies = { "nvim-tree/nvim-web-devicons" },
+    keys = {
+      {
+        "-",
+        "<cmd>Oil<cr>",
+        desc = "Open parent directory",
+        mode = { "n" },
+      },
+    },
+  },
+
+  {
+    "kristijanhusak/vim-dadbod-ui",
+    dependencies = {
+      { "tpope/vim-dadbod", lazy = true },
+      { "kristijanhusak/vim-dadbod-completion", ft = { "sql", "mysql", "plsql" }, lazy = true },
+    },
+    cmd = {
+      "DBUI",
+      "DBUIToggle",
+      "DBUIAddConnection",
+      "DBUIFindBuffer",
+    },
+    init = function()
+      -- Your DBUI configuration
+      vim.g.db_ui_use_nerd_fonts = 1
+
+      vim.api.nvim_create_autocmd("FileType", {
+        pattern = { "sql", "mysql", "plsql" },
+        callback = function()
+          require("cmp").setup.buffer {
+            sources = {
+              { name = "vim-dadbod-completion" },
+              { name = "buffer" },
+            },
+          }
+        end,
+      })
     end,
   },
 }
