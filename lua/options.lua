@@ -52,3 +52,7 @@ vim.api.nvim_create_autocmd("ColorScheme", {
     vim.cmd "highlight! link GitSignsCurrentLineBlame Comment"
   end,
 })
+
+vim.opt.foldmethod = "expr"
+vim.opt.foldexpr = "nvim_treesitter#foldexpr()"
+vim.opt.foldlevelstart = 99

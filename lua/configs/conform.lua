@@ -7,6 +7,7 @@ local options = {
     sh = { "shfmt" },
     xml = { "xmlformat" },
     yaml = { "yamlfmt" },
+    javascript = { "prettier" },
     -- css = { "prettier" },
     -- html = { "prettier" },
   },
