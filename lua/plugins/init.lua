@@ -15,14 +15,9 @@ return {
         },
       },
     },
+    -- stylua: ignore
     keys = {
-      {
-        "<leader>gg",
-        function()
-          Snacks.lazygit()
-        end,
-        desc = "Lazygit",
-      },
+      { "<leader>gg", function() Snacks.lazygit() end, desc = "Lazygit" },
     },
   },
 
@@ -62,6 +57,9 @@ return {
         "sql",
         "yaml",
         "dhall",
+        "svelte",
+        "typescript",
+        "javascript",
       },
       incremental_selection = {
         enable = true,
@@ -254,13 +252,9 @@ return {
     },
     opts = {},
     cmd = { "MCstart", "MCvisual", "MCclear", "MCpattern", "MCvisualPattern", "MCunderCursor" },
+    -- stylua: ignore
     keys = {
-      {
-        mode = { "v", "n" },
-        "<Leader>mc",
-        "<cmd>MCstart<cr>",
-        desc = "[M]ulti-[c]ursor start",
-      },
+      { mode = { "v", "n" }, "<Leader>mc", "<cmd>MCstart<cr>", desc = "[M]ulti-[c]ursor start" },
     },
   },
 
@@ -316,15 +310,9 @@ return {
         ignore_whitespace = true,
       },
     },
+    -- stylua: ignore
     keys = {
-      {
-        "<leader>gh",
-        function()
-          require("gitsigns").preview_hunk()
-        end,
-        desc = "Preview [H]unk",
-        mode = { "n" },
-      },
+      { "<leader>gh", function() require("gitsigns").preview_hunk() end, desc = "Preview [H]unk", mode = { "n" } },
     },
   },
 
@@ -337,30 +325,12 @@ return {
       provider = "openai",
       -- hints = { enabled = false },
     },
+    build = "make",
+    -- stylua: ignore
     keys = {
-      {
-        "<leader>aa",
-        function()
-          require("avante.api").ask()
-        end,
-        desc = "avante: ask",
-        mode = { "n", "v" },
-      },
-      {
-        "<leader>ar",
-        function()
-          require("avante.api").refresh()
-        end,
-        desc = "avante: refresh",
-      },
-      {
-        "<leader>ae",
-        function()
-          require("avante.api").edit()
-        end,
-        desc = "avante: edit",
-        mode = "v",
-      },
+      { "<leader>aa", function() require("avante.api").ask() end, desc = "avante: ask", mode = { "n", "v" } },
+      { "<leader>ar", function() require("avante.api").refresh() end, desc = "avante: refresh" },
+      { "<leader>ae", function() require("avante.api").edit() end, desc = "avante: edit", mode = "v" },
     },
     dependencies = {
       "nvim-treesitter/nvim-treesitter",
@@ -398,10 +368,30 @@ return {
 
   {
     "MeanderingProgrammer/render-markdown.nvim",
-    opts = {
-      file_types = { "markdown" },
-    },
+    dependencies = { "nvim-treesitter/nvim-treesitter", "nvim-tree/nvim-web-devicons" },
+    opts = {},
     ft = { "markdown" },
+  },
+
+  {
+    "epwalsh/obsidian.nvim",
+    version = "*", -- recommended, use latest release instead of latest commit
+    lazy = true,
+    ft = "markdown",
+    dependencies = {
+      "nvim-lua/plenary.nvim",
+    },
+    opts = {
+      ui = {
+        enable = false,
+      },
+      workspaces = {
+        {
+          name = "personal",
+          path = "~/Library/Mobile Documents/iCloud~md~obsidian/Documents/personal",
+        },
+      },
+    },
   },
 
   {
@@ -416,13 +406,9 @@ return {
     "stevearc/oil.nvim",
     opts = {},
     dependencies = { "nvim-tree/nvim-web-devicons" },
+    -- stylua: ignore
     keys = {
-      {
-        "-",
-        "<cmd>Oil<cr>",
-        desc = "Open parent directory",
-        mode = { "n" },
-      },
+      { "-", "<cmd>Oil<cr>", desc = "Open parent directory", mode = { "n" } },
     },
   },
 
@@ -454,5 +440,29 @@ return {
         end,
       })
     end,
+  },
+
+  {
+    "folke/flash.nvim",
+    event = "VeryLazy",
+    ---@type Flash.Config
+    opts = {},
+    -- stylua: ignore
+    keys = {
+      { "s", mode = { "n", "x", "o" }, function() require("flash").jump() end, desc = "Flash" },
+      { "S", mode = { "n", "x", "o" }, function() require("flash").treesitter() end, desc = "Flash Treesitter" },
+      { "r", mode = "o", function() require("flash").remote() end, desc = "Remote Flash" },
+      { "R", mode = { "o", "x" }, function() require("flash").treesitter_search() end, desc = "Treesitter Search" },
+      { "<c-s>", mode = { "c" }, function() require("flash").toggle() end, desc = "Toggle Flash Search" },
+    },
+  },
+
+  {
+    "miversen33/sunglasses.nvim",
+    event = "UIEnter",
+    opts = {
+      filter_type = "SHADE",
+      filter_percent = 0.375,
+    },
   },
 }

@@ -19,6 +19,7 @@ local servers = {
   "tailwindcss",
   "gopls",
   "dhall_lsp_server",
+  "svelte",
 }
 
 -- lsps with default config
